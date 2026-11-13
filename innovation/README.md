@@ -1,5 +1,7 @@
-# Innovation – Klarify Web App
+# Innovation
 
-**Option:** Other – User interface (Next.js/React + node-oracledb → Oracle PL/SQL)
+**Type:** User interface (custom web application)
 
-To be completed in Phase VII: what it does, how to run it, screenshots.
+**Tools:** Next.js, node-oracledb, Oracle PL/SQL
+
+This folder will document the web application: its purpose, how to run it, and screenshots. It will be completed in Phase VII.
