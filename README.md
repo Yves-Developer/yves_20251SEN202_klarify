@@ -84,14 +84,14 @@ innovation/          Innovation documentation
 ## References
 mbazaNLP. (2023). *Kinyarwanda TTS dataset* [Data set]. Hugging Face. https://huggingface.co/datasets/mbazaNLP/kinyarwanda-tts-dataset
 
-Mozilla Foundation. (n.d.). *Common Voice*. https://commonvoice.mozilla.org/
+Mozilla Foundation. (n.d.). *Common Voice*. Retrieved November 13, 2026, from https://commonvoice.mozilla.org/
 
-National Institute of Statistics of Rwanda. (2023). *Fifth Rwanda Population and Housing Census, 2022: Thematic report – Education characteristics of the population*. NISR. https://statistics.gov.rw/sites/default/files/documents/2025-02/Education.pdf
+National Institute of Statistics of Rwanda. (2023). *Fifth Rwanda Population and Housing Census, 2022: Thematic report on education characteristics of the population*. https://statistics.gov.rw/sites/default/files/documents/2025-02/Education.pdf
 
-Novotney, S., & Callison-Burch, C. (2010). Cheap, fast and good enough: Automatic speech recognition with non-expert transcription. In *Proceedings of NAACL HLT 2010* (pp. 207–215). Association for Computational Linguistics. https://aclanthology.org/N10-1024/
+Novotney, S., & Callison-Burch, C. (2010). Cheap, fast and good enough: Automatic speech recognition with non-expert transcription. In *Proceedings of Human Language Technologies: The 2010 Annual Conference of the North American Chapter of the Association for Computational Linguistics* (pp. 207–215). Association for Computational Linguistics. https://aclanthology.org/N10-1024/
 
-Oracle. (n.d.). *Executing PL/SQL*. node-oracledb documentation. https://node-oracledb.readthedocs.io/en/latest/user_guide/plsql_execution.html
+Oracle. (n.d.). *Executing PL/SQL*. In *node-oracledb documentation*. Retrieved November 13, 2026, from https://node-oracledb.readthedocs.io/en/latest/user_guide/plsql_execution.html
 
-Rutunda, S., Kabanda, K., & Stan, A. (2023). *Kinyarwanda TTS: Using a multi-speaker dataset to build a Kinyarwanda TTS model*. ICLR 2023 Workshop on AfricaNLP. https://openreview.net/forum?id=1gLgrqWnHF
+Rutunda, S., Kabanda, K., & Stan, A. (2023). *Kinyarwanda TTS: Using a multi-speaker dataset to build a Kinyarwanda TTS model* [Paper presentation]. ICLR 2023 Workshop on AfricaNLP, Kigali, Rwanda. https://openreview.net/forum?id=1gLgrqWnHF
 
 Details of each source are in the [research log](docs/research/research_log.md).
