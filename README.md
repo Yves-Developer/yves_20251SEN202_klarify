@@ -60,11 +60,47 @@ A Next.js web application connects to the Oracle database through `node-oracledb
 | **Triggers** | Approve a clip after two reviewers agree; prevent users from reviewing their own work; write every change to `AUDIT_LOG`. |
 | **Exceptions** | Handle self-review, edits to approved clips and invalid status changes. |
 
+## Phase I – Business Process Modeling
+**Selected process: Transcript Review and Verification.** This process turns raw Kinyarwanda audio clips and their transcripts into a verified dataset for TTS training. A contributor corrects each transcript, two peer reviewers must approve it, and the Oracle database records every step. Unusable clips are flagged and either returned to the queue or archived.
+
+| | |
+|---|---|
+| **Modeling tool** | diagrams.net (draw.io) |
+| **Notation** | BPMN with swimlanes |
+| **Published diagram** | [View diagram](https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Klarify_Phase%20I_Business_Process.drawio&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1KrMvxsCjUMIlmRRoZo_3l2iIdk5_ytnb%26export%3Ddownload) |
+| **Diagram (PDF)** | [business_process_diagram.pdf](docs/business_process/business_process_diagram.pdf) |
+| **Explanation** | [business_process_explanation.pdf](docs/business_process/business_process_explanation.pdf) |
+
+### Actors and Responsibilities
+| Actor | Responsibility |
+|---|---|
+| **Admin** | Imports the dataset, reviews flagged clips and decides whether to keep or archive them. |
+| **Contributor** | Listens to each clip, flags unusable audio and corrects the transcript. |
+| **Peer Reviewer** | Compares the audio with the corrected transcript and approves or rejects it. |
+| **System (Oracle DB)** | Stores all data and runs the PL/SQL procedures and triggers that enforce the review rules. |
+
+### Data Activities
+| Activity | Type | Data created or used |
+|---|---|---|
+| Save clips as PENDING | Create | New rows in `CLIPS` and `TRANSCRIPTS` |
+| Listen to audio and read transcript | Retrieve | Clip audio and current transcript |
+| Flag clip | Create | New row in `FLAGS` with reason and error type |
+| Review flagged clip | Retrieve | Flag details and clip |
+| Send clip back to queue | Update | Clip status returns to `PENDING` |
+| Archive clip | Delete / Archive | Clip status set to `ARCHIVED`; history is kept |
+| Save new version (`submit_correction`) | Create, Update | New row in `TRANSCRIPT_VERSIONS`; `TRANSCRIPTS` updated; `AUDIT_LOG` entry |
+| Review audio vs transcript | Retrieve | Clip and corrected transcript |
+| Reject with comment | Create | New row in `REVIEWS` (rejected) |
+| Save approval (`review_clip`) | Create | New row in `REVIEWS` (approved) |
+| Mark clip APPROVED | Update | Clip status set to `APPROVED` |
+| Export verified dataset | Retrieve | All approved clips and transcripts |
+
 ## Repository Structure
 ```
 docs/research/       Research log
 docs/proposal/       Project proposal
 docs/presentation/   Presentation slides
+docs/business_process/   Phase I diagram and explanation
 data/                Data source and sample records
 innovation/          Innovation documentation
 ```
@@ -73,7 +109,7 @@ innovation/          Innovation documentation
 | Phase | Focus | Status |
 |---|---|---|
 | 0 | Research, data source and proposal | In progress |
-| I | Business process modeling | Not started |
+| I | Business process modeling | In progress |
 | II | Data sourcing and normalization | Not started |
 | III | Pluggable database creation | Not started |
 | IV | Tables and data loading | Not started |
