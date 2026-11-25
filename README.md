@@ -159,9 +159,9 @@ innovation/          Innovation documentation
 ## Project Phases
 | Phase | Focus | Status |
 |---|---|---|
-| 0 | Research, data source and proposal | In progress |
+| 0 | Research, data source and proposal | Completed |
 | I | Business process modeling | Completed |
-| II | Data sourcing and normalization | In progress |
+| II | Data sourcing and normalization | Completed |
 | III | Pluggable database creation | Not started |
 | IV | Tables and data loading | Not started |
 | V | PL/SQL development | Not started |
