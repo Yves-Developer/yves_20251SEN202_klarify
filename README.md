@@ -95,13 +95,64 @@ A Next.js web application connects to the Oracle database through `node-oracledb
 | Mark clip APPROVED | Update | Clip status set to `APPROVED` |
 | Export verified dataset | Retrieve | All approved clips and transcripts |
 
+## Phase II – Data Sourcing, Normalization and Logical Design
+In this phase, the raw dataset is organised into relational tables in Third Normal Form (3NF). The result is the logical design that will be built in Oracle in Phase IV.
+
+### Raw Data
+| | |
+|---|---|
+| **File** | [`data/raw/tts-dataset.csv`](data/raw/tts-dataset.csv), kept exactly as downloaded |
+| **Records** | 3,992 (one Kinyarwanda sentence and its clip code per record) |
+| **Format** | Plain text, no header row, values separated by a space |
+| **Licence** | CC BY 4.0 |
+| **Collected** | 25 November 2026 |
+| **Description** | [Dataset card](data/dataset_card.md) |
+
+The 3,992 audio files (about 2.1 GB) are not stored in this repository because of their size. The database stores only each clip's file name.
+
+### Data Quality
+The quality check counts problems but does not fix them; cleaning takes place in Phase IV. The main results are:
+- **0** clip codes match their audio file name without conversion (`TTS_10_175` vs `TTS 10_175.wav`).
+- **73** sentences appear in two different clips, so the text cannot be used as a key.
+- **86** sentence numbers are missing within the recording sessions.
+- **28** records contain double spaces, and no record has capital letters or final punctuation.
+
+### Normalization
+| Form | Change made |
+|---|---|
+| **UNF** | One wide row per clip; the dataset details repeat on all 3,992 rows. |
+| **1NF** | The clip code is split into a session number and a sentence number, so each column holds one value. |
+| **2NF** | Speaker and source details depend only on the session, so they move to `RECORDING_SESSIONS`. |
+| **3NF** | Licence and language depend on the source, and gender depends on the speaker, so they move to `DATASET_SOURCES` and `SPEAKERS`. |
+
+Each step is shown with real rows in [normalization.md](docs/design/normalization.md), together with the field mapping and the Phase IV cleaning checklist.
+
+### Logical Design
+The final design has **11 related tables**: the 8 tables planned in the proposal and 3 new tables found through normalization.
+
+| Group | Tables |
+|---|---|
+| From the raw data | `DATASET_SOURCES`, `SPEAKERS`, `RECORDING_SESSIONS`, `CLIPS`, `TRANSCRIPTS` |
+| From the business process | `USERS`, `TRANSCRIPT_VERSIONS`, `REVIEWS`, `FLAGS`, `ERROR_TYPES`, `AUDIT_LOG` |
+
+`REVIEWS` and `FLAGS` are junction tables that resolve many-to-many relationships between users and the data they work on.
+
+| Document | Content |
+|---|---|
+| [Dataset card](data/dataset_card.md) | Source, licence, format, size and quality report |
+| [Normalization](docs/design/normalization.md) | UNF → 3NF with real rows, field mapping and record trace |
+| [ERD](docs/design/erd.png) | Logical ERD in crow's-foot notation |
+| [Data dictionary](docs/design/data_dictionary.md) | Every table and column, with keys and constraints |
+
 ## Repository Structure
 ```
 docs/research/       Research log
 docs/proposal/       Project proposal
 docs/presentation/   Presentation slides
 docs/business_process/   Phase I diagram and explanation
-data/                Data source and sample records
+docs/design/         Phase II normalization, ERD and data dictionary
+data/raw/            Raw dataset, exactly as downloaded
+data/                Dataset card
 innovation/          Innovation documentation
 ```
 
@@ -109,8 +160,8 @@ innovation/          Innovation documentation
 | Phase | Focus | Status |
 |---|---|---|
 | 0 | Research, data source and proposal | In progress |
-| I | Business process modeling | In progress |
-| II | Data sourcing and normalization | Not started |
+| I | Business process modeling | Completed |
+| II | Data sourcing and normalization | In progress |
 | III | Pluggable database creation | Not started |
 | IV | Tables and data loading | Not started |
 | V | PL/SQL development | Not started |
